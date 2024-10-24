@@ -1,0 +1,83 @@
+1.
+create or replace procedure update_amount
+  2  as
+  3  begin
+  4     update account a set a.balance = a.balance + 5000 where a.account_type = 'Saving' and a.branch_id in (select branch_id from branch_details where address = 'Mumbai');
+  5
+  6     update account a set a.balance = a.balance + 10000 where a.account_type in('Checking', 'Current') and a.branch_id in (select branch_id from branch_details where address = 'Mumbai');
+  7
+  8
+  9  exception
+ 10     when no_data_found then
+ 11             dbms_output.put_line('No data found');
+ 12
+ 13     when others then
+ 14             dbms_output.put_line('Error');
+ 15  end;
+ 16  /
+select * from account;
+
+ACCOUNT_NO ACCOUNT_TYPE         DATE_OPEN DATE_CLOS ACCOUNT_STATUS          BALANCE CUSTOMER_ID  BRANCH_ID
+---------- -------------------- --------- --------- -------------------- ---------- ----------- ----------
+     12003 Checking             18-SEP-01           active                    11000       10001       6002
+     12004 Saving               13-AUG-02           active                     7000       10002       6001
+     12005 Checking             13-AUG-00           active                    49000       10003       6004
+     12007 Saving               27-AUG-90           active                     2620       10003       6005
+     12008 Saving               27-SEP-92           active                     2200       10003       6005
+     12009 Saving               30-SEP-99           active                    22000       10011       6007
+     12010 Checking             31-OCT-95           active                     7250       10012       6007
+     12011 Saving               24-DEC-96           active                     6050       10006       6009
+     12012 Saving               19-NOV-97           inactive                   2653       10013       6008
+     12013 Checking             27-MAR-87           inactive                  99256       10010       6001
+     12014 Checking             31-MAY-98           inactive                  19256       10011       6010
+
+ACCOUNT_NO ACCOUNT_TYPE         DATE_OPEN DATE_CLOS ACCOUNT_STATUS          BALANCE CUSTOMER_ID  BRANCH_ID
+---------- -------------------- --------- --------- -------------------- ---------- ----------- ----------
+     12015 Saving               23-MAY-98           inactive                  16785       10002       6011
+
+
+
+
+
+2.
+create or replace procedure transaction_display
+  2  as
+  3     cursor c_trans is select transaction_id, transaction_type, amount, account_no from transaction_details;
+  4     trans c_trans % rowtype;
+  5  begin
+  6     open c_trans;
+  7             dbms_output.put_line('in range between 12001 to 12014');
+  8             loop
+  9                     fetch c_trans into trans;
+ 10                     exit when c_trans%NOTFOUND;
+ 11                     if(trans.account_no between 12001 and 12015) then
+ 12                             if(trans.transaction_type = 'Deposit' and trans.amount = 12000) then
+ 13                             dbms_output.put_line(trans.transaction_id||'  '||trans.transaction_type||'  '||trans.amount||'  '||trans.account_no);
+ 14                             end if;
+ 15
+ 16                             if(trans.transaction_type = 'Withdraw' and trans.amount = 8000) then
+ 17                             dbms_output.put_line(trans.transaction_id||'  '||trans.transaction_type||'  '||trans.amount||'  '||trans.account_no);
+ 18                             end if;
+ 19                     end if;
+ 20             end loop;
+ 21     close c_trans;
+ 22  exception
+ 23     when no_data_found then
+ 24             dbms_output.put_line('No data found');
+ 25
+ 26     when others then
+ 27             dbms_output.put_line('Error');
+ 28  end;
+ 29  /
+
+Procedure created.
+
+SQL> exec transaction_display;
+in range between 12001 to 12014
+5002  Deposit  12000  12004
+5007  Withdraw  8000  12008
+5015  Deposit  12000  12013
+
+
+
+3.
