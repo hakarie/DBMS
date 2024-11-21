@@ -40,43 +40,20 @@ ACCOUNT_NO ACCOUNT_TYPE         DATE_OPEN DATE_CLOS ACCOUNT_STATUS          BALA
 
 
 2.
-create or replace procedure transaction_display
-  2  as
-  3     cursor c_trans is select transaction_id, transaction_type, amount, account_no from transaction_details;
-  4     trans c_trans % rowtype;
-  5  begin
-  6     open c_trans;
-  7             dbms_output.put_line('in range between 12001 to 12014');
-  8             loop
-  9                     fetch c_trans into trans;
- 10                     exit when c_trans%NOTFOUND;
- 11                     if(trans.account_no between 12001 and 12015) then
- 12                             if(trans.transaction_type = 'Deposit' and trans.amount = 12000) then
- 13                             dbms_output.put_line(trans.transaction_id||'  '||trans.transaction_type||'  '||trans.amount||'  '||trans.account_no);
- 14                             end if;
- 15
- 16                             if(trans.transaction_type = 'Withdraw' and trans.amount = 8000) then
- 17                             dbms_output.put_line(trans.transaction_id||'  '||trans.transaction_type||'  '||trans.amount||'  '||trans.account_no);
- 18                             end if;
- 19                     end if;
- 20             end loop;
- 21     close c_trans;
- 22  exception
- 23     when no_data_found then
- 24             dbms_output.put_line('No data found');
- 25
- 26     when others then
- 27             dbms_output.put_line('Error');
- 28  end;
- 29  /
+create or replace procedure update_transaction is
+    begin
+    update transaction_details set amount = 8000 where transaction_type = 'Withdraw' and account_no between 12001 and 12010;
+    dbms_output.put_line('Transaction type Withdraw has been updated.');
+    update transaction_details set amount = 12000 where transaction_type = 'Deposit' and account_no between 12001 and 12010;
+    dbms_output.put_line('Transaction type Deposit has been updated.');
+    end;
+    /
 
 Procedure created.
 
 SQL> exec transaction_display;
-in range between 12001 to 12014
-5002  Deposit  12000  12004
-5007  Withdraw  8000  12008
-5015  Deposit  12000  12013
+Transaction type Withdraw has been updated.
+Transaction type Deposit has been updated.
 
 
 List of exercises for PL/SQL procedure and function
