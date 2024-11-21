@@ -79,5 +79,15 @@ in range between 12001 to 12014
 5015  Deposit  12000  12013
 
 
+List of exercises for PL/SQL procedure and function
+1.	Write pl/sql procedure to add Rs.5000 to the account type of SAVINGS and add Rs.10000 to the account type of CURRENT or CHECKING for the branch city equal to ‘MUMBAI’
+2.	Write a pl/sql procedure for the transaction amount of Rs.8000 for the transaction type of WITHDRAW and Rs.12000 transaction amount for the transaction type of DEPOSIT for the account number between two ranges.
+3.	Write pl/sql procedure to find all account details along with count, sum, avg from transaction relation whose transaction date is greater than           01-01-2000 and less than 15-10-2022 and transaction type of WITHDRAW
+4.	Write a pl/sql procedure to find customer details for the average loan amount >30000 for loan type of PERSONAL loan AND VEHICLE loan
+5.	Write a pl/sql procedure to find sum, avg, min and max from loan payment relation whose principal amount is less than 30000 and interest amount is less than 4000
+6.	Write a pl/sql function to find prime number of a given number
+7.	Write pl/sql function to find average of transaction amount whose accno between two range of numbers 
+8.	Write pl/sql function to print loan number from loan table for the customer number greater than some value
+9.	Write pl/sql function to print all customer number details whose branch city=’Chennai
+10.	Write pl/sql function to find sum of paid amount from loan payment relation whose paymentscheduleddate is equal to paid date
 
-3.
