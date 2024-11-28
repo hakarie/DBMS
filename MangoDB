@@ -1,0 +1,124 @@
+>db.createCollection("student")
+{ ok: 1 }
+
+INSERT
+>db.student.insertOne({rollNo : 1002, name:"Kathir", Maths : 93, Physics : 89, Chemistry : 86})
+{
+  acknowledged: true,
+  insertedId: ObjectId('674830bf6eebcfa0d1aea0f3')
+}
+>db.student.insertOne({rollNo : 5067, name:"Sudharsan", Maths : 45, Physics : 99, Chemistry : 68})
+{
+  acknowledged: true,
+  insertedId: ObjectId('674832526eebcfa0d1aea0f4')
+}
+>db.student.insertMany([{rollNo : 1004, name : "Vishal", Maths : 89, Physics : 87, Chemistry : 99} , {rollNo : 1005, name : "Sanjai", Maths : 99, Physics : 58, Chemistry : 68}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67483f8084f52d6ec963a949'),
+    '1': ObjectId('67483f8084f52d6ec963a94a')
+  }
+}
+
+
+
+DISPLAY
+>db.student.find()
+
+{
+  _id: ObjectId('674830bf6eebcfa0d1aea0f3'),
+  rollNo: 1002,
+  name: 'Kathir',
+  Maths: 93,
+  Physics: 89,
+  Chemistry: 86
+}
+{
+  _id: ObjectId('674832526eebcfa0d1aea0f4'),
+  rollNo: 5067,
+  name: 'Sudharsan',
+  Maths: 45,
+  Physics: 99,
+  Chemistry: 68
+}
+{
+  _id: ObjectId('67483f8084f52d6ec963a949'),
+  rollNo: 1004,
+  name: 'Vishal',
+  Maths: 89,
+  Physics: 87,
+  Chemistry: 99
+}
+{
+  _id: ObjectId('67483f8084f52d6ec963a94a'),
+  rollNo: 1005,
+  name: 'Sanjai',
+  Maths: 99,
+  Physics: 58,
+  Chemistry: 68
+}
+
+
+
+>db.student.find({rollNo : 5067})
+{
+  _id: ObjectId('674832526eebcfa0d1aea0f4'),
+  rollNo: 5067,
+  name: 'Sudharsan',
+  Maths: 45,
+  Physics: 99,
+  Chemistry: 68
+}
+
+UPDATE
+>db.student.updateOne({name : "Sudharsan"}, {$set : {Maths : 86}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+>db.student.find({name : "Sudharsan"})
+{
+  _id: ObjectId('674832526eebcfa0d1aea0f4'),
+  rollNo: 5067,
+  name: 'Sudharsan',
+  Maths: 86,
+  Physics: 99,
+  Chemistry: 68
+}
+
+DELETE
+>db.student.deleteOne({rollNo : 5067})
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+>db.student.find()
+{
+  _id: ObjectId('674830bf6eebcfa0d1aea0f3'),
+  rollNo: 1002,
+  name: 'Kathir',
+  Maths: 93,
+  Physics: 89,
+  Chemistry: 86
+}
+{
+  _id: ObjectId('67483f8084f52d6ec963a949'),
+  rollNo: 1004,
+  name: 'Vishal',
+  Maths: 89,
+  Physics: 87,
+  Chemistry: 99
+}
+{
+  _id: ObjectId('67483f8084f52d6ec963a94a'),
+  rollNo: 1005,
+  name: 'Sanjai',
+  Maths: 99,
+  Physics: 58,
+  Chemistry: 68
+}
